@@ -22,7 +22,12 @@ platform :ios do
       scheme: "Runner",  # Replace with your actual scheme name
       export_method: "app-store",
       configuration: "Release"
+      export_options: {
       provisioningProfiles: {
+        "com.instacoach.coachmanager" => "com.instacoach.coachmanager",
+      },
+    }
+        provisioningProfiles: {
         "com.instacoach.coachmanager" => "com.instacoach.coachmanager"
       }
       export_options: {
