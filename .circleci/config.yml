@@ -121,16 +121,15 @@ jobs:
       - run:
           name: Build iOS Release
           command: |
-            cd ios && flutter build ios --release --no-codesign
-
-      - store_artifacts:
-          path: /Users/distiller/project/build/ios/iphoneos/Runner.app
+            cd ios && flutter build ios --release --codesign
 
       - run:
           name: Run Fastlane
           command: |
             cd ios && fastlane build_and_deploy
 
+      - store_artifacts:
+          path: ./build/ios/Runner.ipa
 
 workflows:
   version: 2
