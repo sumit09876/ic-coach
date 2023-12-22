@@ -1,3 +1,23 @@
+lane :build_and_sign do
+  # Your other build actions go here
+
+  # Set the development team
+  build_app(
+    scheme: "Runner",
+    export_method: "app-store", # or other export methods
+    build_path: "/Users/distiller/project/build/ios/iphoneos/Runner.app",
+    skip_profile_detection: true, # Set this to true if you want to skip automatic profile detection
+    team_id: "J6Q6Y9VYC4", # Specify your development team identifier
+    export_options: {
+      compileBitcode: false, # Adjust export options as needed
+      uploadBitcode: false,
+      uploadSymbols: true
+    }
+  )
+
+  # Your other actions go here
+end
+
 lane :your_deploy_lane do
   produce(
     # username: "J6Q6Y9VYC4@icloud.com", # Your Apple ID
