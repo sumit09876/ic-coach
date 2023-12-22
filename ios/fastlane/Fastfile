@@ -1,3 +1,17 @@
+# Fastfile
+
+default_platform(:ios)
+
+lane :create_profiles do
+  sigh(
+    app_identifier: "com.instacoach.coachmanager",
+    username: "J6Q6Y9VYC4@instacoach.com",
+    team_id: "J6Q6Y9VYC4",
+    development: false, # Set to true for development profiles
+  )
+end
+
+
 default_platform(:ios)
 
 platform :ios do
