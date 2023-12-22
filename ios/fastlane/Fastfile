@@ -2,37 +2,30 @@
 
 default_platform(:ios)
 
-lane :create_profiles do
-  sigh(
-    app_identifier: "com.instacoach.coachmanager",
-    username: "J6Q6Y9VYC4@instacoach.com",
-    team_id: "J6Q6Y9VYC4",
-    development: false, # Set to true for development profiles
-  )
-end
-
-
-default_platform(:ios)
-
 platform :ios do
+  desc "Create provisioning profiles"
+  lane :create_profiles do
+    sigh(
+      app_identifier: "com.instacoach.coachmanager",
+      username: "J6Q6Y9VYC4@instacoach.com",
+      team_id: "J6Q6Y9VYC4",
+      development: true # Set to true for development profiles
+    )
+  end
+
   desc "Build and deploy the Flutter app to the App Store"
   lane :build_and_deploy do
     cocoapods
     gym(
       scheme: "Runner",  # Replace with your actual scheme name
       export_method: "app-store",
-      configuration: "Release"
+      configuration: "Release",
       export_options: {
-      provisioningProfiles: {
-        "com.instacoach.coachmanager" => "com.instacoach.coachmanager",
-      },
-    }
         provisioningProfiles: {
-        "com.instacoach.coachmanager" => "com.instacoach.coachmanager"
-      }
-      export_options: {
+          "com.instacoach.coachmanager" => "com.instacoach.coachmanager",
+        },
         allowProvisioningUpdates: true
-    }
+      }
     )
 
     deliver(
