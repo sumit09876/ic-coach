@@ -7,7 +7,7 @@ platform :ios do
   lane :create_profiles do
     sigh(
       app_identifier: "com.instacoach.coachmanager",
-      username: "com.instacoach.coachmanager",
+      username: "J6Q6Y9VYC4@icloud.com",
       team_id: "J6Q6Y9VYC4",
       development: true # Set to true for development profiles
     )
