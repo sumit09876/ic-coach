@@ -14,10 +14,10 @@ end
 
 platform :ios do
     lane :beta do
-      build_app(xcargs: "-allowProvisioningUpdates")
+      # build_app(xcargs: "-allowProvisioningUpdates")
       increment_build_number  # Increment the build number
       set_development_team
-      build_ios_app           # Build the iOS app
+      build_ios_app(xcargs: "-allowProvisioningUpdates")            # Build the iOS app
       upload_to_testflight    # Upload to TestFlight
     end
     lane :set_development_team do
