@@ -5,9 +5,9 @@ default_platform(:ios)
 platform :ios do
   desc "Create provisioning profiles"
   lane :create_profiles do
-    sigh(
+    sign(
       app_identifier: "com.instacoach.coachmanager",
-      username: "J6Q6Y9VYC4@icloud.com",
+      username: "",
       team_id: "J6Q6Y9VYC4",
       development: true # Set to true for development profiles
     )
