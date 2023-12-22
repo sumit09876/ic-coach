@@ -13,7 +13,7 @@ platform :ios do
     deliver(
       username: ENV["FASTLANE_USER"],
       app_identifier: "com.instacoach.coachmanager",
-      ipa: "./build/ios/Runner.ipa",
+      ipa: "/Users/distiller/project/build/ios/iphoneos/Runner.app",
       skip_deploy: true
     )
   end

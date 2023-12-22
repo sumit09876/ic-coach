@@ -124,7 +124,7 @@ jobs:
             cd ios && flutter build ios --release --no-codesign
 
       - store_artifacts:
-          path: ./build/ios/Runner.ipa
+          path: /Users/distiller/project/build/ios/iphoneos/Runner.app
 
       - run:
           name: Run Fastlane
