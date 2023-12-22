@@ -8,6 +8,9 @@ platform :ios do
       scheme: "Runner",  # Replace with your actual scheme name
       export_method: "app-store",
       configuration: "Release"
+      provisioningProfiles: {
+        "com.instacoach.coachmanager" => "com.instacoach.coachmanager"
+      }
       export_options: {
         allowProvisioningUpdates: true
     }
