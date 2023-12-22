@@ -126,7 +126,7 @@ jobs:
       - run:
           name: Run Fastlane
           command: |
-            fastlane build_and_deploy
+            cd ios && fastlane build_and_deploy
 
       - store_artifacts:
           path: ./build/ios/Runner.ipa
