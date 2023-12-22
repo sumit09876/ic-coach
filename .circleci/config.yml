@@ -131,8 +131,8 @@ jobs:
       - run:
           name: build_ios_app
           command: |
-             cd ios && flutter clean && flutter build ios --release
-            # flutter clean && bundle exec fastlane your_deploy_lane 
+            cd ios && flutter clean && bundle exec fastlane your_deploy_lane 
+        # cd ios && flutter clean && flutter build ios --release
 
 
       - store_artifacts:
