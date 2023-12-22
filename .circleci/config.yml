@@ -7,7 +7,7 @@ orbs:
 commands:
   custom_install_sdk:
     description: |
-     Install Flutter SDK and Fastlane without doctor
+      Install Flutter SDK and Fastlane without doctor
     parameters:
       install-location:
         default: ~/usr/development
@@ -22,7 +22,7 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-        flutter/install:
+      - flutter/install:
           version: 2.10.3
 
       - run:
@@ -31,9 +31,8 @@ commands:
             gem install fastlane -NV
 
       - run:
-          command: |+
-            #!/usr/bin/env bash
-
+          name: Install Flutter SDK if it does not exist
+          command: |
             INSTALL_LOCATION=$(eval "echo $ORB_EVAL_INSTALL_LOCATION")
 
             if [ ! -d "$INSTALL_LOCATION/flutter" ]; then
@@ -61,7 +60,7 @@ commands:
           environment:
             ORB_EVAL_INSTALL_LOCATION: <<parameters.install-location>>
             ORB_VAL_FLUTTER_SDK_VERSION: <<parameters.version>>
-          name: Install Flutter SDK if it does not exist
+
       - save_cache:
           key: flutter-<<parameters.version>>-{{ arch }}
           paths:
