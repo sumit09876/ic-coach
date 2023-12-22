@@ -22,14 +22,13 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
+       flutter/install:
+          version: 2.10.3
+
       - run:
           name: Install Fastlane
           command: |
             gem install fastlane -NV
-      - run:
-          name: Install bundler
-          command: |
-            gem install bundler -v '< 3' && bundle install
 
       - run:
           command: |+
@@ -122,6 +121,11 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
+
+      - run:
+          name: Build iOS Release
+          command: |
+            cd ios && flutter build ios --release --no-codesign
 
       - run:
           name: Run Fastlane
