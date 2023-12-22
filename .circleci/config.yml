@@ -22,9 +22,6 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-      - flutter/install:
-          version: 2.10.3
-
       - run:
           name: Install Fastlane
           command: |
