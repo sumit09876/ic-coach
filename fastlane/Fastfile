@@ -1,27 +1,20 @@
-lane :your_deploy_lane do
-  produce(
-    # username: "J6Q6Y9VYC4@icloud.com", # Your Apple ID
-    app_identifier: "com.instacoach.coachmanager",
-    username: "admin@instacoach.com"
-  )
-
-  # Your deployment steps go here
-end
+default_platform(:ios)
 
 platform :ios do
-    lane :beta do
-      build_app(xcargs: "-allowProvisioningUpdates")
-      increment_build_number  # Increment the build number
-      set_development_team
-      build_ios_app           # Build the iOS app
-      upload_to_testflight    # Upload to TestFlight
-    end
-    lane :set_development_team do
-      project_path = Dir["*.xcodeproj"].first
-      update_project_team(
-        path: project_path,
-        teamid:"J6Q6Y9VYC4"
-      )
-    end
-  
+  desc "Build and deploy the Flutter app to the App Store"
+  lane :build_and_deploy do
+    cocoapods
+    gym(
+      scheme: "Runner",  # Replace with your actual scheme name
+      export_method: "app-store",
+      configuration: "Release"
+    )
+
+    deliver(
+      username: ENV["FASTLANE_USER"],
+      app_identifier: "com.instacoach.coachmanager",
+      ipa: "./build/ios/Runner.ipa",
+      skip_deploy: true
+    )
   end
+end

@@ -30,6 +30,7 @@ commands:
           name: Install bundler
           command: |
             gem install bundler -v '< 3' && bundle install
+            bundle exec fastlane install_plugins
 
       - run:
           command: |+
@@ -123,15 +124,26 @@ jobs:
           command: |
             flutter pub get
 
+      - run:
+          name: Build iOS Release
+          command: |
+            flutter build ios --release --no-codesign
+
+      - run:
+          name: Run Fastlane
+          command: |
+            fastlane build_and_deploy
+
+
       # - run:
       #     name: Set Development Team
       #     command: |
       #       cd ios && bundle exec fastlane ios set_development_team
 
-      - run:
-          name: build_ios_app
-          command: |
-               cd ios && flutter clean && flutter build ipa
+      # - run:
+      #     name: build_ios_app
+      #     command: |
+      #          cd ios && flutter clean && flutter build ipa
             # cd ios && flutter clean && bundle exec fastlane build_and_sign
 
             # cd ios && flutter clean && flutter build ios --release
@@ -144,7 +156,7 @@ jobs:
           #  path: /Users/distiller/project/build/ios/iphoneos/Runner.app.
           #  path: /project/build/ios/iphoneos/Runner.app.
           #  path: build/ios/Runner/build/Release-iphoneos/Runner.app
-          path: /Users/distiller/project/build/ios/iphoneos/Runner.app
+          path: ./build/ios/Runner.ipa
           
       # - run:
       #     name: Build ipa file
@@ -170,5 +182,6 @@ workflows:
   version: 2
   build_android_ios:
     jobs:
-      - build_ios
+      - - build_and_deploy
+      # - build_ios
       # - build_android
