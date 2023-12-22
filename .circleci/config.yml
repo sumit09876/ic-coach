@@ -22,7 +22,7 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-       flutter/install:
+        flutter/install:
           version: 2.10.3
 
       - run:
