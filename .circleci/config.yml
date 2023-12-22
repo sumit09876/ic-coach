@@ -121,7 +121,9 @@ jobs:
       - run:
           name: Build iOS Release
           command: |
-            cd ios && flutter build ios --release --codesign
+            flutter clean
+            cd ios && xcodebuild -workspace Runner.xcworkspace -scheme Runner -sdk iphoneos -allowProvisioningUpdates
+
 
       - run:
           name: Run Fastlane
