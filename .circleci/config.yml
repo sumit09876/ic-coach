@@ -22,10 +22,10 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-      - run:
-          name: Install Fastlane
-          command: |
-            gem install fastlane -NV
+      # - run:
+      #     name: Install Fastlane
+      #     command: |
+      #       gem install fastlane -NV
       - run:
           name: Install bundler
           command: |
