@@ -6,7 +6,7 @@ jobs:
       xcode: 15.0.0
     environment:
       FL_OUTPUT_DIR: /Users/distiller/
-      FASTLANE_LANE: test
+      FASTLANE_LANE: upload_testflight
     steps:
       - checkout
       - run: bundle install
