@@ -37,9 +37,9 @@ workflows:
   build-test-adhoc:
     jobs:
       - build-and-test
-      - adhoc:
-          filters:
-            branches:
-              only: main
+      # - adhoc:
+      #      filters:
+      #        branches:
+      #          only: main
           # requires:
           #   - build-and-test
