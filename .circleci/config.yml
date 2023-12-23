@@ -96,7 +96,7 @@ jobs:
     macos:
       xcode: 15.0.0
     environment:
-      FL_OUTPUT_DIR: /Users/distiller/project/build/ios/iphoneos/Runner.app
+      FL_OUTPUT_DIR: /Users/distiller/
       FASTLANE_LANE: upload_testflight
 
     steps:
@@ -126,7 +126,7 @@ jobs:
          name: fastlane
          command: bundle exec fastlane $FASTLANE_LANE
       - store_artifacts:
-          path: /Users/distiller/project/build/ios/iphoneos/Runner.app
+          path: /Users/distiller/
 
 
 
