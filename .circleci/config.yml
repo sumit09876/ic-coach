@@ -95,23 +95,27 @@ jobs:
   build_ios:
     macos:
       xcode: 15.0.0
+    environment:
+      FL_OUTPUT_DIR: /Users/distiller/project/build/ios/iphoneos/Runner.app
+      FASTLANE_LANE: upload_testfligh
 
     steps:
       - checkout
-
       - run: xcodebuild -version
 
       - custom_install_sdk: 
           version: 3.16.0
+
+      - flutter/install_pub:
+          cache-version: v1
 
       - run:
           name: Install CocoaPods
           command: |
             gem install cocoapods -v '1.14.3'
             pod setup
-      
-      - flutter/install_pub:
-          cache-version: v1
+
+      - run: bundle install
 
       - run:
           name: Flutter pub get
@@ -119,24 +123,31 @@ jobs:
             flutter pub get
 
       - run:
-          name: fastlane create_profiles
-          command: |
-             fastlane create_profiles
-
-      - run:
-          name: Build iOS Release
-          command: |
-            flutter clean
-            cd ios && xcodebuild -workspace Runner.xcworkspace -scheme Runner -sdk iphoneos -allowProvisioningUpdates
-
-      - store_artifacts:
+         name: fastlane
+         command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifats:
           path: /Users/distiller/project/build/ios/iphoneos/Runner.app
 
 
-      - run:
-          name: Run Fastlane
-          command: |
-            cd ios && fastlane build_and_deploy
+      # - run:
+      #     name: fastlane create_profiles
+      #     command: |
+      #        fastlane create_profiles
+
+      # - run:
+      #     name: Build iOS Release
+      #     command: |
+      #       flutter clean
+      #       cd ios && xcodebuild -workspace Runner.xcworkspace -scheme Runner -sdk iphoneos -allowProvisioningUpdates
+
+      # - store_artifacts:
+      #     path: /Users/distiller/project/build/ios/iphoneos/Runner.app
+
+
+      # - run:
+      #     name: Run Fastlane
+      #     command: |
+      #       cd ios && fastlane build_and_deploy
 
 
 workflows:

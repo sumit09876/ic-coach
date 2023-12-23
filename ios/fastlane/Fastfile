@@ -1,38 +1,74 @@
-# Fastfile
-
-default_platform(:ios)
+# fastlane/Fastfile
+default_platform :ios
 
 platform :ios do
-  desc "Create provisioning profiles"
-  lane :create_profiles do
-    sigh(
-      app_identifier: "com.instacoach.coachmanager",
-      username: "admin@instacoach.com",
-      team_id: "J6Q6Y9VYC4",
-      development: true # Set to true for development profiles
-    )
+  before_all do
+    setup_circle_ci
   end
 
-  desc "Build and deploy the Flutter app to the App Store"
-  lane :build_and_deploy do
-    cocoapods
-    gym(
-      scheme: "Runner",  # Replace with your actual scheme name
-      export_method: "app-store",
-      configuration: "Release",
-      export_options: {
-        provisioningProfiles: {
-          "com.instacoach.coachmanager" => "com.instacoach.coachmanager",
-        },
-        allowProvisioningUpdates: true
-      }
+  desc "Upload to Testflight"
+  lane :upload_testflight do
+    # Get the version number from the project and check against
+    # the latest build already available on TestFlight, then
+    # increase the build number by 1. If no build is available
+    # for that version, then start at 1
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        initial_build_number: 1,
+        version: get_version_number(xcodeproj: "Runner.xcodeproj")
+      ) + 1,
     )
-
-    deliver(
-      username: ENV["FASTLANE_USER"],
-      app_identifier: "com.instacoach.coachmanager",
-      ipa: "/Users/distiller/project/build/ios/iphoneos/Runner.app",
-      skip_deploy: true
+    # Set up Distribution code signing and build the app
+    match(type: "appstore")
+    gym(scheme: "Runner")
+    # Upload the binary to TestFlight and automatically publish
+    # to the configured beta testing group
+    app_store_connect_api_key
+    pilot(
+      distribute_external: true,
+      notify_external_testers: true,
+      groups: ["Runner Beta Testers"],
+      changelog: "This is another new build from CircleCI!"
     )
   end
 end
+
+
+# # Fastfile
+
+# default_platform(:ios)
+
+# platform :ios do
+#   desc "Create provisioning profiles"
+#   lane :create_profiles do
+#     sigh(
+#       app_identifier: "com.instacoach.coachmanager",
+#       username: "admin@instacoach.com",
+#       team_id: "J6Q6Y9VYC4",
+#       development: true # Set to true for development profiles
+#     )
+#   end
+
+#   desc "Build and deploy the Flutter app to the App Store"
+#   lane :build_and_deploy do
+#     cocoapods
+#     gym(
+#       scheme: "Runner",  # Replace with your actual scheme name
+#       export_method: "app-store",
+#       configuration: "Release",
+#       export_options: {
+#         provisioningProfiles: {
+#           "com.instacoach.coachmanager" => "com.instacoach.coachmanager",
+#         },
+#         allowProvisioningUpdates: true
+#       }
+#     )
+
+#     deliver(
+#       username: ENV["FASTLANE_USER"],
+#       app_identifier: "com.instacoach.coachmanager",
+#       ipa: "/Users/distiller/project/build/ios/iphoneos/Runner.app",
+#       skip_deploy: true
+#     )
+#   end
+# end
