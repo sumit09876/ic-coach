@@ -20,8 +20,8 @@ platform :ios do
     )
     # Set up Distribution code signing and build the app
     app_store_connect_api_key(
-      key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
-      issuer_id: ENV ["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
+      issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
       key_filepath: "../AuthKey_7FCT32P47X.p8",
       in_house: false, # Set to true if you're deploying to Apple Business Manager or Apple School Manager
     )
