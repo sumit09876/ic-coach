@@ -19,11 +19,11 @@ platform :ios do
       ) + 1,
     )
     # Set up Distribution code signing and build the app
+    app_store_connect_api_key
     match(type: "appstore")
     gym(scheme: "Runner")
     # Upload the binary to TestFlight and automatically publish
     # to the configured beta testing group
-    app_store_connect_api_key
     pilot(
       distribute_external: true,
       notify_external_testers: true,
