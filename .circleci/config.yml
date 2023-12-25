@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   flutter: circleci/flutter@2.0.0
-  fastlane: circleci/fastlane@0.3.0
+  fastlane: circleci/fastlane@latest
 
 jobs:
   deploy:
