@@ -22,9 +22,9 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-      - flutter/install:
-          flutter-version: '1.22.0'
-      - flutter/build-ios
+      # - flutter/install:
+      #     flutter-version: '1.22.0'
+      # - flutter/build-ios
       - run:
           name: Set up fastlane
           command: |
