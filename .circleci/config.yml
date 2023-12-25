@@ -138,12 +138,12 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
-            fastlane ios setup_testflight_app
 
 
       - run:
           name: Set up TestFlight
           command: |
+            cd ios
             bundle exec fastlane init
             bundle exec fastlane setup_testflight_app
             bundle exec fastlane update_testflight_app_information
