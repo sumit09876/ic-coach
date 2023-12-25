@@ -145,9 +145,9 @@ jobs:
           command: |
             cd ios
         #    bundle exec fastlane init
-        #   bundle exec fastlane setup_testflight_app
-           bundle exec fastlane update_testflight_app_information
-           bundle exec fastlane build_and_submit_to_testflight
+           bundle exec fastlane upload_testflight
+           bundle exec fastlane app_store_connect_api_key
+          #  bundle exec fastlane build_and_submit_to_testflight
 
       # - store_artifacts:
       #     path: ./build/ios/Runner.ipa
