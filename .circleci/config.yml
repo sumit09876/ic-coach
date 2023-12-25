@@ -1,23 +1,43 @@
-# .circleci/config.yml
 version: 2.1
+
+orbs:
+ flutter: flutter/flutter@1.0.0
+
 jobs:
-  build-and-test:
-    macos:
-      xcode: 15.0.0
-    environment:
-      FL_OUTPUT_DIR: /Users/distiller/
-      FASTLANE_LANE: upload_testflight
+ build:
+    docker:
+      - image: cimg/base:stable
+        environment:
+          FLUTTER_VERSION: '1.22.0'
     steps:
       - checkout
-      - run: bundle install
-      - run:
-          name: Fastlane
-          command: cd ios && bundle exec fastlane $FASTLANE_LANE
-      - store_artifacts:
-          path: /Users/distiller/
-      - store_test_results:
-          path: /Users/distiller/
+      - flutter/install:
+          flutter-version: '1.22.0'
+      - flutter/run-tests
 
+ deploy:
+    docker:
+      - image: cimg/base:stable
+        # environment:
+        #   APPLE_ID: << your Apple ID >>
+        #   APPLE_APP_SPECIFIC_PASSWORD: << your APPLE_APP_SPECIFIC_PASSWORD >>
+        #   CONNECT_API_KEY: << your CONNECT_API_KEY >>
+    steps:
+      - checkout
+      - flutter/install:
+          flutter-version: '1.22.0'
+      - flutter/build-ios
+      - run:
+          name: Set up fastlane
+          command: |
+            sudo gem install fastlane -NV
+      - run:
+          name: Set up TestFlight
+          command: |
+            bundle exec fastlane init
+            bundle exec fastlane setup_testflight_app
+            bundle exec fastlane update_testflight_app_information
+            bundle exec fastlane build_and_submit_to_testflight
   # adhoc:
   #   macos:
   #     xcode: 15.0.0
@@ -33,10 +53,10 @@ jobs:
   #     - store_artifacts:
   #         path: /Users/distiller/
 
-workflows:
-  build-test-adhoc:
-    jobs:
-      - build-and-test
+# workflows:
+#   build-test-adhoc:
+#     jobs:
+      # - build-and-test
       # - adhoc:
       #      filters:
       #        branches:
