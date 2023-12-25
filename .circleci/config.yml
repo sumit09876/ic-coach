@@ -29,6 +29,7 @@ commands:
           name: Set up fastlane
           command: |
             sudo gem install fastlane -NV
+            bundle install
       # - run:
       #     name: Set up TestFlight
       #     command: |
