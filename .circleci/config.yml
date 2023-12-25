@@ -26,4 +26,4 @@ jobs:
           command: flutter build ios --release --no-codesign
 
       - fastlane/run:
-          lane: deploy_to_testflight
+          lane: dep_to_testflight

@@ -1,7 +1,7 @@
 # The first argument to the `lane` definition is the lane name, which can be used to call the lane from the command line or another lane.
 # The block argument is a code block that defines the actions the lane should take.
 
-lane :deploy_to_testflight do
+lane :dep_to_testflight do
   # Verify that all required files are present before starting the deployment process.
   ensure_git_status_clean
   increment_build_number
