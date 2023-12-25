@@ -19,6 +19,22 @@ platform :ios do
       ) + 1,
     )
     # Set up Distribution code signing and build the app
+platform :ios do
+  lane :setup_testflight_app do
+    # Your setup steps go here
+    # For example:
+        
+    # Build your iOS app
+    gym
+        
+    # Upload the build to TestFlight
+    pilot
+        
+    # Notify your team about the new build
+    slack(message: "New TestFlight build is ready!")
+  end
+end
+      
     app_store_connect_api_key(
       key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
       issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
