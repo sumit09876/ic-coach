@@ -26,10 +26,10 @@ jobs:
           command: flutter build ios --release --no-codesign
 
       - fastlane/run:
-          lane: dep_to_testflight
+          lane: deploy_to_testflight  # Corrected lane name
+
 workflows:
   version: 2
   build_ios:
     jobs:
-      # - build_android
       - deploy
