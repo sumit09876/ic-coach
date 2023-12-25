@@ -21,15 +21,15 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
 
-      - run:
-          name: Build iOS
-          command: flutter build ios --release --no-codesign
+#       - run:
+#           name: Build iOS
+#           command: flutter build ios --release --no-codesign
 
-      - fastlane/run:
-          lane: deploy_to_testflight  # Corrected lane name
+#       - fastlane/run:
+#           lane: deploy_to_testflight  # Corrected lane name
 
-workflows:
-  version: 2
-  build_ios:
-    jobs:
-      - deploy
+# workflows:
+#   version: 2
+#   build_ios:
+#     jobs:
+#       - deploy
