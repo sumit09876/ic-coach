@@ -145,8 +145,8 @@ jobs:
           command: |
             cd ios
         #    bundle exec fastlane init
-           bundle exec fastlane upload_testflight
-           bundle exec fastlane app_store_connect_api_key
+            bundle exec fastlane upload_testflight
+            bundle exec fastlane app_store_connect_api_key
           #  bundle exec fastlane build_and_submit_to_testflight
 
       # - store_artifacts:
