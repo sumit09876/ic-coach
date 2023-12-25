@@ -7,7 +7,7 @@ orbs:
 commands:
   custom_install_sdk:
     description: |
-     Install Flutter SDK and Fastlane without doctor
+      Install Flutter SDK and Fastlane without doctor
     parameters:
       install-location:
         default: ~/usr/development
@@ -22,30 +22,11 @@ commands:
           keys:
             - flutter-<<parameters.version>>-{{ arch }}
 
-      # - flutter/install:
-      #     flutter-version: '1.22.0'
-      # - flutter/build-ios
       - run:
           name: Set up fastlane
           command: |
             sudo gem install fastlane -NV
             bundle install
-      # - run:
-      #     name: Set up TestFlight
-      #     command: |
-      #       bundle exec fastlane init
-      #       bundle exec fastlane setup_testflight_app
-      #       bundle exec fastlane update_testflight_app_information
-      #       bundle exec fastlane build_and_submit_to_testflight
-      # - run:
-      #     name: Install Fastlane
-      #     command: |
-      #       gem install fastlane -NV
-      # - run:
-      #     name: Install bundler
-      #     command: |
-      #       gem install bundler -v '< 3' && bundle install
-      #       bundle exec fastlane install_plugins
 
       - run:
           command: |+
@@ -79,11 +60,11 @@ commands:
             ORB_EVAL_INSTALL_LOCATION: <<parameters.install-location>>
             ORB_VAL_FLUTTER_SDK_VERSION: <<parameters.version>>
           name: Install Flutter SDK if it does not exist
+
       - save_cache:
           key: flutter-<<parameters.version>>-{{ arch }}
           paths:
             - <<parameters.install-location>>
-
 
 jobs:
   build_android:
@@ -112,7 +93,7 @@ jobs:
 
       - store_artifacts:
           path: build/app/outputs/flutter-apk/app-release.apk
-          
+
   build_ios:
     macos:
       xcode: 15.0.0
@@ -135,19 +116,13 @@ jobs:
           cache-version: v1
 
       - run:
-          name: Flutter pub get
-          command: |
-            flutter pub get
-
-
-      - run:
           name: Set up TestFlight
           command: |
             cd ios
-        #    bundle exec fastlane init
+            # bundle exec fastlane init
             bundle exec fastlane upload_testflight
             bundle exec fastlane app_store_connect_api_key
-          #  bundle exec fastlane build_and_submit_to_testflight
+            # bundle exec fastlane build_and_submit_to_testflight
 
       # - store_artifacts:
       #     path: ./build/ios/Runner.ipa
