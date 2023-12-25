@@ -22,11 +22,6 @@ jobs:
         #   APPLE_ID: << your Apple ID >>
         #   APPLE_APP_SPECIFIC_PASSWORD: << your APPLE_APP_SPECIFIC_PASSWORD >>
         #   CONNECT_API_KEY: << your CONNECT_API_KEY >>
-    steps:
-      - checkout
-      - flutter/install:
-          flutter-version: '1.22.0'
-      - flutter/build-ios
       - run:
           name: Set up fastlane
           command: |
