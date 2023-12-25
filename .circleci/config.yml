@@ -1,31 +1,143 @@
 version: 2.1
 
 orbs:
- flutter: circleci/flutter@2.0.0
+  android: circleci/android@1.0.3
+  flutter: circleci/flutter@2.0.0
 
-jobs:
- build:
-    docker:
-      - image: cimg/base:stable
-        environment:
-          FLUTTER_VERSION: '1.22.0'
+commands:
+  custom_install_sdk:
+    description: |
+     Install Flutter SDK and Fastlane without doctor
+    parameters:
+      install-location:
+        default: ~/usr/development
+        description: Install path for the Flutter and Fastlane binaries.
+        type: string
+      version:
+        default: 3.16.0
+        description: The target version for the Flutter SDK.
+        type: string
     steps:
-      - checkout
+      - restore_cache:
+          keys:
+            - flutter-<<parameters.version>>-{{ arch }}
+
       - flutter/install:
           flutter-version: '1.22.0'
-      - flutter/run-tests
-
- deploy:
-    docker:
-      - image: cimg/base:stable
-        # environment:
-        #   APPLE_ID: << your Apple ID >>
-        #   APPLE_APP_SPECIFIC_PASSWORD: << your APPLE_APP_SPECIFIC_PASSWORD >>
-        #   CONNECT_API_KEY: << your CONNECT_API_KEY >>
+      - flutter/build-ios
       - run:
           name: Set up fastlane
           command: |
             sudo gem install fastlane -NV
+      # - run:
+      #     name: Set up TestFlight
+      #     command: |
+      #       bundle exec fastlane init
+      #       bundle exec fastlane setup_testflight_app
+      #       bundle exec fastlane update_testflight_app_information
+      #       bundle exec fastlane build_and_submit_to_testflight
+      # - run:
+      #     name: Install Fastlane
+      #     command: |
+      #       gem install fastlane -NV
+      # - run:
+      #     name: Install bundler
+      #     command: |
+      #       gem install bundler -v '< 3' && bundle install
+      #       bundle exec fastlane install_plugins
+
+      - run:
+          command: |+
+            #!/usr/bin/env bash
+
+            INSTALL_LOCATION=$(eval "echo $ORB_EVAL_INSTALL_LOCATION")
+
+            if [ ! -d "$INSTALL_LOCATION/flutter" ]; then
+              mkdir -p "$INSTALL_LOCATION"
+              if [ "$(uname)" == 'Darwin' ]; then
+                curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_$ORB_VAL_FLUTTER_SDK_VERSION-stable.zip
+                unzip -qq flutter_sdk.zip -d "$INSTALL_LOCATION"
+                rm flutter_sdk.zip
+              elif uname -a | grep -q "Linux" ; then
+                curl -o flutter_sdk.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$ORB_VAL_FLUTTER_SDK_VERSION-stable.tar.xz
+                tar xf flutter_sdk.tar.xz -C "$INSTALL_LOCATION"
+                rm -f flutter_sdk.tar.xz
+              else
+                echo "This platform ($(uname -a)) is not supported."
+                exit 1
+              fi
+            fi
+
+            echo "export PATH=$INSTALL_LOCATION/flutter/bin:\$PATH" >> "$BASH_ENV"
+
+            # shellcheck source=/dev/null
+            source "$BASH_ENV"
+            which flutter
+
+          environment:
+            ORB_EVAL_INSTALL_LOCATION: <<parameters.install-location>>
+            ORB_VAL_FLUTTER_SDK_VERSION: <<parameters.version>>
+          name: Install Flutter SDK if it does not exist
+      - save_cache:
+          key: flutter-<<parameters.version>>-{{ arch }}
+          paths:
+            - <<parameters.install-location>>
+
+
+jobs:
+  build_android:
+    executor:
+      name: android/android-machine
+      resource-class: medium
+    
+    steps:
+      - checkout
+
+      - custom_install_sdk: 
+          version: 3.16.0
+
+      - flutter/install_pub:
+          cache-version: v1
+
+      - run:
+          name: Flutter pub get
+          command: |
+            flutter pub get
+
+      - run:
+          name: Build APK
+          command: |
+            flutter build apk
+
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
+  build_ios:
+    macos:
+      xcode: 15.0.0
+
+    steps:
+      - checkout
+
+      - run: xcodebuild -version
+
+      - custom_install_sdk: 
+          version: 3.16.0
+
+      - run:
+          name: Install CocoaPods
+          command: |
+            gem install cocoapods -v '1.14.3'
+            pod setup
+      
+      - flutter/install_pub:
+          cache-version: v1
+
+      - run:
+          name: Flutter pub get
+          command: |
+            flutter pub get
+
       - run:
           name: Set up TestFlight
           command: |
@@ -33,28 +145,13 @@ jobs:
             bundle exec fastlane setup_testflight_app
             bundle exec fastlane update_testflight_app_information
             bundle exec fastlane build_and_submit_to_testflight
-  # adhoc:
-  #   macos:
-  #     xcode: 15.0.0
-  #   environment:
-  #     FL_OUTPUT_DIR: /Users/distiller/
-  #     FASTLANE_LANE: upload_testflight
-  #   steps:
-  #     - checkout
-  #     - run: bundle install
-  #     - run:
-  #         name: Fastlane
-  #         command: cd ios && bundle exec fastlane $FASTLANE_LANE
-  #     - store_artifacts:
-  #         path: /Users/distiller/
 
-# workflows:
-#   build-test-adhoc:
-#     jobs:
-      # - build-and-test
-      # - adhoc:
-      #      filters:
-      #        branches:
-      #          only: main
-          # requires:
-          #   - build-and-test
+      # - store_artifacts:
+      #     path: ./build/ios/Runner.ipa
+
+workflows:
+  version: 2
+  build_android_ios:
+    jobs:
+      # - build_android
+      - build_ios
