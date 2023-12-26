@@ -94,14 +94,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Install Fastlane
-          command: |
-            gem install fastlane -NV
-            bundle install
-            bundle exec fastlane init
-            xcodebuild -version
-
       - custom_install_sdk: 
           version: 3.16.0
 
@@ -121,7 +113,7 @@ jobs:
 
       - run:
          name: fastlane
-         command: cd ios && bundle exec fastlane ios deploy_to_testflight_api_key
+         command: cd ios && flutter build ios
       # - store_artifacts:
       #     path: /Users/distiller/
 
