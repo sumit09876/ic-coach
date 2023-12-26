@@ -1,43 +1,33 @@
 # Fastfile
+default_platform(:ios)
+
+platform :ios do
+before_all do
+   app_store_connect_api_key(
+     key_id: "7FCT32P47X",
+     issuer_id: "59e619f6-5c97-466c-ab17-019fd24c5a74",
+     key_filepath: "./AuthKey_7FCT32P47X.p8",
+     duration: 1200,
+     in_house: false,
+     team_id: "J6Q6Y9VYC4"
+   )
+end
+ 
+desc "Build and deploy Flutter app to TestFlight"
 lane :deploy_testflight do
-    app_store_connect_api_key(
-      key_id: "7FCT32P47X",
-      issuer_id: "59e619f6-5c97-466c-ab17-019fd24c5a74",
-      key_filepath: "./AuthKey_7FCT32P47X.p8",
-      duration: 1200,
-      in_house: false,
-      team_id: "J6Q6Y9VYC4"
-    )
-    # Other deployment steps
-  end
-  
-  # default_platform(:ios)
-  
-  # platform :ios do
-  #   before_all do
-  #     app_store_connect_api_key(
-  #       key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
-  #       issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
-  #       key_filepath: "./AuthKey_7FCT32P47X.p8",
-  #       in_house: false
-  #     )
-  #   end
-  
-  desc "Build and deploy Flutter app to TestFlight"
-#   lane :deploy_testflight do
-    # Install required dependencies
-    cocoapods
-    flutter(package: true)
-  
-    # Build the iOS app
-    build_ios_app
-  
-    # Upload to TestFlight
-    upload_to_testflight(
-      username: "admin@instacoach.com",
-      app_identifier: "com.instacoach.coachmanager",
-      ipa: "build/ios/archive/Runner.ipa",
-      skip_submission: false
-    )
-  end
-  
+   # Install required dependencies
+   cocoapods
+   flutter(package: true)
+ 
+   # Build the iOS app
+   build_ios_app
+ 
+   # Upload to TestFlight
+   upload_to_testflight(
+     username: "admin@instacoach.com",
+     app_identifier: "com.instacoach.coachmanager",
+     ipa: "build/ios/archive/Runner.ipa",
+     skip_submission: false
+   )
+end
+end
