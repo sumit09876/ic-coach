@@ -134,9 +134,9 @@ workflows:
       #           - dev
 
       - build-testflight-ios:
-          filters:
-            branches:
-              only:
+          # filters:
+          #   branches:
+          #     only:
                 - main
       # - build-adhoc-ios:
       #     filters:
