@@ -106,6 +106,13 @@ jobs:
             flutter pub get
 
       - run:
+          name: uninstall cocoapods then install
+          command: |
+            sudo gem uninstall cocoapods
+            sudo gem install cocoapods
+ 
+
+      - run:
          name: fastlane
          command: cd ios && flutter clean && flutter build ipa
       # - store_artifacts:
