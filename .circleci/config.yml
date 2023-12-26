@@ -143,6 +143,7 @@ jobs:
       #     name: Run Fastlane
       #     command: |
       #       cd ios && fastlane build_and_deploy
+      # uueu
 
 
 workflows:
