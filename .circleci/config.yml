@@ -114,7 +114,7 @@ jobs:
           name: install cocoapods then install
           command: |
             cd ios && sudo gem install cocoapods
-            cd ios && pod setup
+            pod setup
             # brew reinstall openssl
       - run:
           name: Install pod
