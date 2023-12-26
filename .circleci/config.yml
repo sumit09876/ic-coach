@@ -104,7 +104,6 @@ jobs:
           command: |
             gem install fastlane
             bundle install
-            fastlane match init
 
       - run:
           name: Flutter pub get
