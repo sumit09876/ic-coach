@@ -90,17 +90,18 @@ jobs:
   build_ios:
     macos:
       xcode: 15.0.0
-    environment:
-      FL_OUTPUT_DIR: /Users/distiller/
 
     steps:
       - checkout
+
+      - run: flutter build ios --release
 
       - run:
           name: Install Fastlane
           command: |
             gem install fastlane -NV
             bundle install
+            bundle exec fastlane init
             xcodebuild -version
 
       - custom_install_sdk: 
