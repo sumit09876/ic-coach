@@ -108,7 +108,7 @@ jobs:
       - run:
           name: Flutter pub get
           command: |
-            flutter pub get
+            flutter pub get && pot install
 
       - run:
           name: uninstall cocoapods then install
