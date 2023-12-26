@@ -1,11 +1,32 @@
+# Fastfile
+
 default_platform(:ios)
 
 platform :ios do
-  desc "Build and release a new version to the App Store"
-  lane :release do
-    match(type: "appstore")
-    gym(export_method: "app-store")
-    pilot(skip_submission: true)
-    pilot(ipa: ENV['CIRCLE_ARTIFACTS'] + "/ipa/Runner.ipa")
+  before_all do
+    app_store_connect_api_key(
+      key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
+      issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
+      key_filepath: "./AuthKey_7FCT32P47X.p8",
+      in_house: false
+    )
+  end
+
+  desc "Build and deploy Flutter app to TestFlight"
+  lane :deploy_testflight do
+    # Install required dependencies
+    cocoapods
+    flutter(package: true)
+
+    # Build the iOS app
+    build_ios_app
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      username: "admin@instacoach.com",
+      app_identifier: "your_bundle_identifier",
+      ipa: "build/ios/archive/YourApp.ipa",
+      skip_submission: false
+    )
   end
 end

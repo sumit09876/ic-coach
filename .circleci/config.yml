@@ -118,7 +118,7 @@ jobs:
 
       - run:
          name: fastlane
-         command: cd ios && flutter clean && bundle exec fastlane release
+         command: cd ios && flutter clean && bundle exec fastlane ios deploy_testflight
       # - store_artifacts:
       #     path: /Users/distiller/
 
