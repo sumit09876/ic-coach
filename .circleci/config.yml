@@ -108,7 +108,6 @@ jobs:
       - run:
           name: uninstall cocoapods then install
           command: |
-            sudo gem uninstall cocoapods
             sudo gem install cocoapods
  
 
