@@ -1,5 +1,56 @@
 # Fastfile
 
+# Lane for building and deploying to TestFlight
+lane :build_and_deploy_to_testflight do
+  setup_profiles
+  build_app
+  upload_to_testflight
+end
+
+# Lane for building and deploying to App Store
+lane :build_and_deploy_to_app_store do
+  setup_profiles
+  build_app
+  deploy_to_app_store
+end
+
+# Lane for setting up code signing profiles
+lane :setup_profiles do
+  match(type: "appstore")
+end
+
+# Lane for building the app
+lane :build_app do
+  gym(
+    scheme: "Runner",
+    export_method: "app-store",
+    configuration: "Release"
+  )
+end
+
+# Lane for uploading to TestFlight
+lane :upload_to_testflight do
+  pilot(
+    distribute_external: true,
+    notify_external_testers: true,
+    groups: ["YourTestFlightGroup"],
+    changelog: "Release notes for this build."
+  )
+end
+
+# Lane for deploying to App Store
+lane :deploy_to_app_store do
+  deliver(
+    username: ENV["FASTLANE_USER"], # Set your Apple ID email as a CircleCI environment variable
+    app_identifier: "com.instacoach.coachmanager",
+    ipa: "/Users/distiller/project/build/ios/iphoneos/app.ipa", # Path to your IPA file
+    skip_deploy: false
+  )
+end
+
+
+# Fastfile
+
 # Define lanes for different tasks
 
 platform :ios do
