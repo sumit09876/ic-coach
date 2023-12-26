@@ -120,7 +120,7 @@ jobs:
           working_directory: ios
 
 workflows:
-  build-app:
+  # build-app:
     jobs:
       # - build-internal-testing-android:
       #     filters:
