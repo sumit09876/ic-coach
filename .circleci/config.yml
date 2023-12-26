@@ -108,17 +108,17 @@ jobs:
       - run:
           name: Flutter pub get
           command: |
-            cd ios && flutter pub get
+            cd /Users/distiller/project && flutter pub get && pod install
 
       - run:
           name: uninstall cocoapods then install
           command: |
             sudo gem install cocoapods
             brew reinstall openssl
-      - run:
-          name: Install pod
-          command: |
-            cd ios && pod install
+      # - run:
+      #     name: Install pod
+      #     command: |
+      #       cd ios && pod install
           
 
       - run:
