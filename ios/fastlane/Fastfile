@@ -24,7 +24,7 @@ lane :deploy_testflight do
   #   end
   
   desc "Build and deploy Flutter app to TestFlight"
-  lane :deploy_testflight do
+#   lane :deploy_testflight do
     # Install required dependencies
     cocoapods
     flutter(package: true)
