@@ -114,6 +114,7 @@ jobs:
           name: uninstall cocoapods then install
           command: |
             sudo gem install cocoapods
+            brew reinstall openssl
  
 
       - run:
