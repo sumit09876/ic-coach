@@ -115,7 +115,11 @@ jobs:
           command: |
             sudo gem install cocoapods
             brew reinstall openssl
-            pod install
+      - run:
+          name: Install CocoaPods
+          command: |
+            gem install cocoapods -v '1.14.3'
+            pod setup
 
       - run:
          name: fastlane
