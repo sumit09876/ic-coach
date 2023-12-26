@@ -102,6 +102,7 @@ jobs:
       - run:
           name: Fastlane init
           command: |
+            gem install fastlane
             cd ios && fastlane init
       - run:
           name: Flutter pub get
