@@ -119,7 +119,7 @@ jobs:
           command: bundle exec fastlane adhoc
           working_directory: ios
 
-orbs:
+
   flutter-orb: circleci/flutter@2.0.0
 
 version: 2.1
