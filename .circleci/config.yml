@@ -109,7 +109,8 @@ jobs:
           working_directory: ios
 
   build-adhoc-ios:
-    executor: macos
+    macos:
+      xcode: 15.0.0
     steps:
       - checkout
       - flutter-orb/install_sdk_and_pub:
