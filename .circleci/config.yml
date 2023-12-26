@@ -99,7 +99,10 @@ jobs:
 
       - flutter/install_pub:
           cache-version: v1
-
+      - run:
+          name: Fastlane init
+          command: |
+            cd ios && fastlane init
       - run:
           name: Flutter pub get
           command: |
