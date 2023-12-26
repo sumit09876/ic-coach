@@ -100,10 +100,10 @@ jobs:
       - flutter/install_pub:
           cache-version: v1
       - run:
-          name: Fastlane init
+          name: install Fastlane
           command: |
             gem install fastlane
-            cd ios && fastlane init
+            bundle install
       - run:
           name: Flutter pub get
           command: |
