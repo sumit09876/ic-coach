@@ -122,9 +122,9 @@ jobs:
 
       - run:
          name: fastlane
-         command: cd ios && bundle exec fastlane deploy_to_testflight_api_key
-      - store_artifacts:
-          path: /Users/distiller/
+         command: cd ios && bundle exec fastlane ios deploy_to_testflight_api_key
+      # - store_artifacts:
+      #     path: /Users/distiller/
 
 
 
