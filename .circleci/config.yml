@@ -101,19 +101,13 @@ jobs:
           cache-version: v1
 
       - run:
-          name: Install CocoaPods
-          command: |
-            gem install cocoapods -v '1.14.3'
-            pod setup
-
-      - run:
           name: Flutter pub get
           command: |
             flutter pub get
 
       - run:
          name: fastlane
-         command: cd ios && flutter build ios
+         command: cd ios && flutter clean && flutter build ipa
       # - store_artifacts:
       #     path: /Users/distiller/
 
