@@ -108,7 +108,7 @@ jobs:
       - run:
           name: Flutter pub get
           command: |
-            cd ios && flutter pub get && cd ios && pod install
+            cd ios && flutter pub get && pod install
 
       - run:
           name: install cocoapods then install
