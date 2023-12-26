@@ -115,6 +115,7 @@ jobs:
           command: |
             sudo gem install cocoapods
             brew reinstall openssl
+            brew upgrade openssl
  
 
       - run:
