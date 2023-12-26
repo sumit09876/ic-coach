@@ -119,7 +119,7 @@ jobs:
           name: Install CocoaPods
           command: |
             gem install cocoapods -v '1.14.3'
-            pod setup
+          
 
       - run:
          name: fastlane
