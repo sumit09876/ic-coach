@@ -134,7 +134,7 @@ workflows:
       #         only:
       #           - dev
 
-      - build-testflight-ios:
+      - build-testflight-ios
           # filters:
           #   branches:
           #     only:
