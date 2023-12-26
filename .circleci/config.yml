@@ -115,8 +115,7 @@ jobs:
           command: |
             sudo gem install cocoapods
             brew reinstall openssl
-            brew upgrade openssl
- 
+            pod install
 
       - run:
          name: fastlane
