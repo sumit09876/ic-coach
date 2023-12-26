@@ -120,7 +120,8 @@ jobs:
           working_directory: ios
 
 workflows:
-  # build-app:
+  version: 2
+   build-app:
     jobs:
       # - build-internal-testing-android:
       #     filters:
@@ -137,7 +138,7 @@ workflows:
           # filters:
           #   branches:
           #     only:
-                - main
+                # - main
       # - build-adhoc-ios:
       #     filters:
       #       branches:
