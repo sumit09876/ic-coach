@@ -1,35 +1,157 @@
 version: 2.1
 
 orbs:
+  android: circleci/android@1.0.3
   flutter: circleci/flutter@2.0.0
-  fastlane: circleci/fastlane
+
+commands:
+  custom_install_sdk:
+    description: |
+      Install Flutter SDK and Fastlane without doctor
+    parameters:
+      install-location:
+        default: ~/usr/development
+        description: Install path for the Flutter and Fastlane binaries.
+        type: string
+      version:
+        default: 3.16.0
+        description: The target version for the Flutter SDK.
+        type: string
+    steps:
+      - restore_cache:
+          keys:
+            - flutter-<<parameters.version>>-{{ arch }}
+
+      - run:
+          name: Install Flutter SDK if it does not exist
+          command: |
+            INSTALL_LOCATION=$(eval "echo $ORB_EVAL_INSTALL_LOCATION")
+
+            if [ ! -d "$INSTALL_LOCATION/flutter" ]; then
+              mkdir -p "$INSTALL_LOCATION"
+              if [ "$(uname)" == 'Darwin' ]; then
+                curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_$ORB_VAL_FLUTTER_SDK_VERSION-stable.zip
+                unzip -qq flutter_sdk.zip -d "$INSTALL_LOCATION"
+                rm flutter_sdk.zip
+              elif uname -a | grep -q "Linux" ; then
+                curl -o flutter_sdk.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$ORB_VAL_FLUTTER_SDK_VERSION-stable.tar.xz
+                tar xf flutter_sdk.tar.xz -C "$INSTALL_LOCATION"
+                rm -f flutter_sdk.tar.xz
+              else
+                echo "This platform ($(uname -a)) is not supported."
+                exit 1
+              fi
+            fi
+
+            echo "export PATH=$INSTALL_LOCATION/flutter/bin:\$PATH" >> "$BASH_ENV"
+
+            # shellcheck source=/dev/null
+            source "$BASH_ENV"
+            which flutter
+
+          environment:
+            ORB_EVAL_INSTALL_LOCATION: <<parameters.install-location>>
+            ORB_VAL_FLUTTER_SDK_VERSION: <<parameters.version>>
+
+      - save_cache:
+          key: flutter-<<parameters.version>>-{{ arch }}
+          paths:
+            - <<parameters.install-location>>
+
 
 jobs:
-  deploy:
+  build_android:
     executor:
-      name: macos/default
-      shell: /bin/bash
+      name: android/android-machine
+      resource-class: medium
+    
     steps:
       - checkout
 
-      - fastlane/install
+      - custom_install_sdk: 
+          version: 3.16.0
 
       - flutter/install_pub:
           cache-version: v1
 
       - run:
           name: Flutter pub get
-          command: flutter pub get
+          command: |
+            flutter pub get
 
-#       - run:
-#           name: Build iOS
-#           command: flutter build ios --release --no-codesign
+      - run:
+          name: Build APK
+          command: |
+            flutter build apk
 
-#       - fastlane/run:
-#           lane: deploy_to_testflight  # Corrected lane name
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
+  build_ios:
+    macos:
+      xcode: 15.0.0
+    environment:
+      FL_OUTPUT_DIR: /Users/distiller/
 
-# workflows:
-#   version: 2
-#   build_ios:
-#     jobs:
-#       - deploy
+    steps:
+      - checkout
+
+      - run:
+          name: Install Fastlane
+          command: |
+            gem install fastlane -NV
+            bundle install
+            xcodebuild -version
+
+      - custom_install_sdk: 
+          version: 3.16.0
+
+      - flutter/install_pub:
+          cache-version: v1
+
+      - run:
+          name: Install CocoaPods
+          command: |
+            gem install cocoapods -v '1.14.3'
+            pod setup
+
+      - run:
+          name: Flutter pub get
+          command: |
+            flutter pub get
+
+      - run:
+         name: fastlane
+         command: cd ios && bundle exec fastlane deploy_to_testflight_api_key
+      - store_artifacts:
+          path: /Users/distiller/
+
+
+
+      # - run:
+      #     name: fastlane create_profiles
+      #     command: |
+      #        fastlane create_profiles
+
+      # - run:
+      #     name: Build iOS Release
+      #     command: |
+      #       flutter clean
+      #       cd ios && xcodebuild -workspace Runner.xcworkspace -scheme Runner -sdk iphoneos -allowProvisioningUpdates
+
+      # - store_artifacts:
+      #     path: /Users/distiller/project/build/ios/iphoneos/Runner.app
+
+
+      # - run:
+      #     name: Run Fastlane
+      #     command: |
+      #       cd ios && fastlane build_and_deploy
+
+
+workflows:
+  version: 2
+  build_android_ios:
+    jobs:
+      # - build_android
+      - build_ios

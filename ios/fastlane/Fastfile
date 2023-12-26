@@ -1,29 +1,66 @@
+# Fastfile
+
+# Define lanes for different tasks
+
+platform :ios do
+
+  # Lane for building and deploying to TestFlight using API key
+  lane :deploy_to_testflight_api_key do
+    # You may want to include additional setup steps here
+
+    # Use the 'app_store_connect_api_key' action to set up API key authentication
+    app_store_connect_api_key(
+      key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
+      issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
+      key_filepath: "../AuthKey_7FCT32P47X.p8",
+      in_house: false, # Set to true if you're deploying to Apple Business Manager or Apple School Manager
+    )
+
+    # Build the iOS app
+    gym(
+      scheme: "Runner", # Replace with your Xcode scheme
+      export_method: "app-store",
+    )
+
+    # Upload the build to TestFlight
+    pilot(
+      skip_submission: true,
+    )
+  end
+
+  # Add other lanes as needed
+
+end
+
+
+
+
 # The first argument to the `lane` definition is the lane name, which can be used to call the lane from the command line or another lane.
 # The block argument is a code block that defines the actions the lane should take.
 
-lane :dep_to_testflight do
-  # Verify that all required files are present before starting the deployment process.
-  ensure_git_status_clean
-  increment_build_number
+# lane :dep_to_testflight do
+#   # Verify that all required files are present before starting the deployment process.
+#   ensure_git_status_clean
+#   increment_build_number
  
-  # Create a build archive for iOS.
-  gym(
-     export_method: "app-store",
-     export_options: {
-       provisioningProfiles: {
-         "com.instacoach.coachmanager" => "com.instacoach.coachmanager"
-       }
-     }
-  )
+#   # Create a build archive for iOS.
+#   gym(
+#      export_method: "app-store",
+#      export_options: {
+#        provisioningProfiles: {
+#          "com.instacoach.coachmanager" => "com.instacoach.coachmanager"
+#        }
+#      }
+#   )
  
-  # Upload the build archive to TestFlight.
-  pilot(
-     ipa: "./app.ipa",
-     changelog: "Version bump and code improvements",
-     skip_submission: false,
-     distribute_external: true
-  )
- end
+#   # Upload the build archive to TestFlight.
+#   pilot(
+#      ipa: "./app.ipa",
+#      changelog: "Version bump and code improvements",
+#      skip_submission: false,
+#      distribute_external: true
+#   )
+#  end
 
 # default_platform :ios
 
