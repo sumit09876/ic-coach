@@ -12,7 +12,6 @@ lane :deploy_testflight do
      in_house: false,
      team_id: "J6Q6Y9VYC4"
    )
-end
  
 desc "Build and deploy Flutter app to TestFlight"
 
