@@ -120,8 +120,6 @@ jobs:
           working_directory: ios
 
 
-  flutter-orb: circleci/flutter@2.0.0
-
 version: 2.1
 
 workflows:
