@@ -119,9 +119,6 @@ jobs:
           command: bundle exec fastlane adhoc
           working_directory: ios
 
-
-version: 2.1
-
 workflows:
   build-app:
     jobs:
