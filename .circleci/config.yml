@@ -94,8 +94,6 @@ jobs:
     steps:
       - checkout
 
-      - run: flutter build ios --release
-
       - run:
           name: Install Fastlane
           command: |
