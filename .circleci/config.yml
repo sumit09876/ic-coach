@@ -121,15 +121,9 @@ jobs:
       # - add_ssh_keys:
       #   fingerprints:
       #     - "1e:aa:ca:d0:51:51:c1:1b:e0:f1:b8:e2:31:b0:0d:f1"
-      - run:
-          command: bundle update fastlane
-          working_directory: ios
       
       - run:
-          command: bundle install && bundle update && pod install
-          working_directory: ios
-      - run:
-          command: gem update --system && rbenv install 3.1.4 --with-openssl-dir=$(brew --prefix openssl)
+          command: bundle install && pod install
           working_directory: ios
       - run:
           command: bundle exec fastlane beta
