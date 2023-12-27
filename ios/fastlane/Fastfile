@@ -71,9 +71,11 @@ platform :ios do
     # Build ipa
     gym(
       scheme: "release",
-      export_method: "app-store"
-      signingStyle: "automatic" # This uses automatic signing
+      export_options: {
+        method: "app-store",
+        signingStyle: "automatic" # This uses automatic signing
         # You may include other export options as needed
+      }
     )
 
     # Upload to TestFlight
