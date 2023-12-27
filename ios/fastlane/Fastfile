@@ -62,16 +62,18 @@ platform :ios do
     )
 
     # Handle cert & provisioning
-    match(
-      type: "appstore",
-      app_identifier: "com.instacoach.coachmanager",
-      readonly: true
-    )
+    # match(
+    #   type: "appstore",
+    #   app_identifier: "com.instacoach.coachmanager",
+    #   readonly: true
+    # )
 
     # Build ipa
     gym(
       scheme: "release",
       export_method: "app-store"
+      signingStyle: "automatic" # This uses automatic signing
+        # You may include other export options as needed
     )
 
     # Upload to TestFlight
