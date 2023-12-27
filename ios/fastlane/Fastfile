@@ -9,41 +9,41 @@ platform :ios do
     end
   end
 
-  desc "Build dev env & send to Firebase"
-  lane :adhoc do
+#   desc "Build dev env & send to Firebase"
+#   lane :adhoc do
 
-    # app_id = "1:497869998462:ios:b30502bdbfa8f791b34b2f"
+#     # app_id = "1:497869998462:ios:b30502bdbfa8f791b34b2f"
 
-    # Get info firebase latest build & increment buildNumber
-    latest_release = firebase_app_distribution_get_latest_release(
-      app: app_id
-    )
-    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
+#     # Get info firebase latest build & increment buildNumber
+#     latest_release = firebase_app_distribution_get_latest_release(
+#       app: app_id
+#     )
+#     increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
 
-    # Handle cert & provisioning
-    match(
-      type: "adhoc",
-      app_identifier: "com.instacoach.coachmanager.release",
-      readonly: true
-    )
+#     # Handle cert & provisioning
+#     match(
+#       type: "adhoc",
+#       app_identifier: "com.instacoach.coachmanager.release",
+#       readonly: true
+#     )
 
-    # Build ipa
-    gym(
-      scheme: "release",
-      export_method: "ad-hoc",
-      output_directory: "output"
-    )
+#     # Build ipa
+#     gym(
+#       scheme: "release",
+#       export_method: "ad-hoc",
+#       output_directory: "output"
+#     )
 
-    # Upload to Firebase
-    if is_ci
-      firebase_app_distribution(
-        app: app_id,
-        release_notes: "Upload to Firebase",
-        groups: "testers"
-      )
-    end
+#     # Upload to Firebase
+#     if is_ci
+#       firebase_app_distribution(
+#         app: app_id,
+#         release_notes: "Upload to Firebase",
+#         groups: "testers"
+#       )
+#     end
 
-  end
+#   end
 
   desc "Build release env & upload to TestFlight"
   lane :beta do
