@@ -125,7 +125,7 @@ jobs:
           command: bundle install && pod install
           working_directory: ios
       - run:
-          command: bundle exec fastlane adhoc
+          command: bundle exec fastlane beta
           working_directory: ios
 
 workflows:
