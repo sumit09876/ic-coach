@@ -29,4 +29,5 @@ jobs:
           ruby-version: '3.1'  # Adjust if needed for Fastlane
       - run: gem install fastlane
       - run: bundle install
+      - run: cd ios && fastlane app_store_connect_api_key
       - run: cd ios && fastlane beta  # Replace with your desired lane
