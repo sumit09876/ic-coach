@@ -3,6 +3,7 @@ name: iOS TestFlight Main
 on:
   workflow_dispatch:
   push:
+    - main
     tags:
       - '*'
     
