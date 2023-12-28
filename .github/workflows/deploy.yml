@@ -26,10 +26,9 @@ jobs:
           ruby-version: 3
           bundler-cache: true
 
-      - run:
-          name: Install Fastlane
-          command: |
-            gem install fastlane -NV
+      - name: Install Fastlane
+        run: |
+          gem install fastlane -NV
 
 
       - name: Install gems
