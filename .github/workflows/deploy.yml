@@ -33,6 +33,11 @@ jobs:
 
       - name: Install gems
         run: bundle install
+      - name: install 
+        run: brew upgrade dart
+      - name: updated
+        run: dart pub get
+
 
       - name: Swift Packages Cache
         uses: actions/cache@v2
