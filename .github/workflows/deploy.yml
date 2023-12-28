@@ -19,30 +19,39 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-      - name: usessssss
+
+      - name: Install Flutter SDK and Fastlane
         run: |
-          custom_install_sdk:
-            description: |
-              Install Flutter SDK and Fastlane without doctor
-            parameters:
-              install-location:
-                default: ~/usr/development
-                description: Install path for the Flutter and Fastlane binaries.
-                type: string
-              version:
-                default: 3.16.0
-                description: The target version for the Flutter SDK.
-                type: string
+          INSTALL_LOCATION=$HOME/usr/development
+          FLUTTER_VERSION=3.16.0
+
+          if [ ! -d "$INSTALL_LOCATION/flutter" ]; then
+            mkdir -p "$INSTALL_LOCATION"
+            
+            # Install Flutter SDK
+            curl -o flutter_sdk.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$FLUTTER_VERSION-stable.tar.xz
+            tar xf flutter_sdk.tar.xz -C "$INSTALL_LOCATION"
+            rm -f flutter_sdk.tar.xz
+
+            # Add Flutter to PATH
+            echo "export PATH=$INSTALL_LOCATION/flutter/bin:\$PATH" >> "$HOME/.bashrc"
+            source "$HOME/.bashrc"
+
+            # Print Flutter version
+            flutter --version
+          fi
+
+          # Install Fastlane
+          gem install fastlane -NV
+
+          # Print Fastlane version
+          fastlane --version
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3
           bundler-cache: true
-
-      - name: Install Fastlane
-        run: |
-          gem install fastlane -NV
 
 
       - name: Swift Packages Cache
