@@ -20,7 +20,7 @@ jobs:
         with:
           xcode-version: latest-stable
       - name: usessssss
-        commands:
+        run: |
           custom_install_sdk:
             description: |
               Install Flutter SDK and Fastlane without doctor
