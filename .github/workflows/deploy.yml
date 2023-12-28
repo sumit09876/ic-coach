@@ -30,4 +30,4 @@ jobs:
       - name: Fastlane send to Testflight
         env:
           MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
-        run: fastlane release apikey:"${{ secrets.APPSTORE_API_PRIVATE_KEY }}" event:tag
+        run: cd ios && fastlane release apikey:"${{ secrets.APPSTORE_API_PRIVATE_KEY }}" event:tag
