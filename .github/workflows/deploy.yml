@@ -54,8 +54,6 @@ jobs:
         run: |
           flutter pub get
 
-      - name: Install gems
-        run:
       - name: Install CocoaPods
         command: |
           gem install cocoapods -v '1.14.3'
