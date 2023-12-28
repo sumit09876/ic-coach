@@ -20,7 +20,11 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v3
+        with:
+           ruby-version: 3.1 # You can specify the Ruby version you need
+ 
 
       - name: Install Bundler
         run: gem install bundler
