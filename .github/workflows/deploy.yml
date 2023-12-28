@@ -1,32 +1,35 @@
-name: iOS Build and Deploy
+name: iOS TestFlight Main
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main]  # Trigger on pushes to the main branch
-
+    tags:
+      - '*'
+    
 jobs:
   build-and-deploy:
+    name: Build IPA and Send to TestFlight
     runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          java-package: jdk
-          distribution: 'adopt'  # Example distribution
-          check-latest: false
+    timeout-minutes: 10
 
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'  # Adjust if needed
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '14.2.0'  # Replace with the desired version
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'  # Adjust if needed for Fastlane
-      - run: gem install fastlane
-      - run: bundle install
-      - run: cd ios && fastlane release  # Replace with your desired lane
+    steps:
+      - name: Log event
+        run: |
+          echo "github.event_name: "${{ github.event_name }}
+          echo "github.event.action: "${{ github.event.action }}
+      - name: Select xCode
+        run: sudo xcode-select -s /Applications/Xcode_14.2.app
+      - name: Create .ssh files
+        run: |
+          echo "${{ secrets.SSH_PUBLIC }}" >> ~/.ssh/id_rsa.pub
+          chmod 644 ~/.ssh/id_rsa.pub
+          echo "${{ secrets.SSH_PRIVATE }}" >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          echo "Host *.github.com\n\tAddKeysToAgent yes\n\tIgnoreUnknown UseKeychain\n\tIdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Fastlane send to Testflight
+        env:
+          MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
+        run: fastlane flight apikey:"${{ secrets.APPSTORE_API_PRIVATE_KEY }}" event:tag
