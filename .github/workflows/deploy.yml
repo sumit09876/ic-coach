@@ -21,10 +21,10 @@ jobs:
           xcode-version: latest-stable
 
       - name: Set up Ruby
-        uses: actions/setup-ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # You can specify the Ruby version you need
-
+          ruby-version: 2.7
+          bundler-cache: true
  
 
       - name: Install Bundler
