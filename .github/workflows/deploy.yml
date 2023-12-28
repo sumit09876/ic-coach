@@ -45,6 +45,20 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.0.0'
+
+      - custom_install_sdk: 
+          version: 3.16.0
+      - flutter/install_pub:
+          cache-version: v1
+      - run:
+          name: Install CocoaPods
+          command: |
+            gem install cocoapods -v '1.14.3'
+            pod setup
+
+      - run: bundle install
+
+
       - run: flutter pub get
       - run: flutter test
       # - run: flutter build apk --debug --split-per-abi
