@@ -47,7 +47,7 @@ jobs:
 
       - name: Custom Install SDK
         run: |
-          Custom Install SDK
+          Install SDK
           version=3.16.0
           echo $version
 
