@@ -50,16 +50,18 @@ jobs:
           version: 3.16.0
       - flutter/install_pub:
           cache-version: v1
-      - run:
+      - name: Install gems
+        run:
           name: Install CocoaPods
           command: |
             gem install cocoapods -v '1.14.3'
             pod setup
 
-      - run: bundle install
+      - name: Install bundle
+        run: bundle install
 
-
-      - run: flutter pub get
+      - name: Install flutter
+        run: flutter pub get
       - run: flutter test
       # - run: flutter build apk --debug --split-per-abi
       - run: |
