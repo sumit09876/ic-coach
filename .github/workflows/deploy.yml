@@ -21,7 +21,6 @@ jobs:
           xcode-version: latest-stable
       - name: Reinstall Flutter SDK
         run: |
-          rm -rf "$HOME/usr/development/flutter"
           curl -o flutter_sdk.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$FLUTTER_VERSION-stable.tar.xz
           tar xf flutter_sdk.tar.xz -C "$HOME/usr/development"
           rm -f flutter_sdk.tar.xz
