@@ -57,9 +57,9 @@ jobs:
       - name: Install gems
         run:
       - name: Install CocoaPods
-          command: |
-            gem install cocoapods -v '1.14.3'
-            pod setup
+        command: |
+          gem install cocoapods -v '1.14.3'
+          pod setup
 
       - name: Install bundle
         run: bundle install
