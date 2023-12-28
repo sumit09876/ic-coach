@@ -26,8 +26,11 @@ jobs:
           ruby-version: 3
           bundler-cache: true
 
-      - name: Install Bundler
-        run: gem install bundler
+      - run:
+          name: Install Fastlane
+          command: |
+            gem install fastlane -NV
+
 
       - name: Install gems
         run: bundle install
@@ -53,12 +56,6 @@ jobs:
         run: |
           gem install cocoapods -v '1.14.3'
           pod setup
-
-      - name: Install bundle
-        run: bundle install
-
-      - name: Install flutter
-        run: flutter pub get
 
       - name: Run Flutter tests
         run: flutter test
