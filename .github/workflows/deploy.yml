@@ -1,0 +1,41 @@
+name: Deploy to TestFlight
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.0.0' # Use the version of Flutter you are using
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build iOS App
+        run: flutter build ios --release
+
+  deploy:
+    runs-on: macos-latest
+    needs: build
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Fastlane
+        run: |
+          bundle install
+          bundle exec fastlane init
+
+      - name: Deploy to TestFlight
+        run: bundle exec fastlane deploy_to_testflight
