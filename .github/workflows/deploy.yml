@@ -45,12 +45,6 @@ jobs:
         with:
           flutter-version: '2.0.0'
 
-      - name: Custom Install SDK
-        run: |
-          Install SDK
-          version=3.16.0
-          echo $version
-
       - name: Install Flutter
         run: |
           flutter pub get
