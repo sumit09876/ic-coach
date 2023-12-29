@@ -118,7 +118,7 @@ jobs:
           command: |
             curl -sSL https://get.fastlane.tools | bash
             bundle update fastlane
-            fastlane deploy_internal
+            cd android && fastlane deploy_internal
           environment:
             GOOGLE_PLAY_JSON_KEY: $GOOGLE_PLAY_JSON_KEY  # Store your JSON key as an environment variable
 
