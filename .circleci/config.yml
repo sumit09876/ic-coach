@@ -92,6 +92,7 @@ jobs:
               -keypass android \
               -storepass android \
               -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
+            ls
    
       - run:
           name: check the path
