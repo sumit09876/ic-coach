@@ -97,7 +97,7 @@ jobs:
       - run:
           name: check the path
           command: |
-            cd android/app/
+            cd ./
             ls
       - run:
           name: Build APK
