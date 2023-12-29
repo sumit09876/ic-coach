@@ -4,6 +4,6 @@ platform :android do
   desc "Deploy a new internal testing release to the Play Store"
   lane :deploy_internal do
     gradle(task: "clean assembleRelease")
-    upload_to_play_store(track: "internal", apk: "build/app/outputs/flutter-apk/app-release.apk")
+    upload_to_play_store(track: "internal", apk: "../build/app/outputs/flutter-apk/app-release.apk")
   end
 end
