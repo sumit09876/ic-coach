@@ -75,9 +75,15 @@ jobs:
           cache-version: v1
 
       - run:
-          name: install fastlane
-          commaand: |
+          name: Install Fastlane
+          command: |
             gem install fastlane -NV
+
+      - run:
+          name: Install bundler
+          command: |
+            gem install bundler -v '< 3' && bundle install
+      
   
       - run:
           name: Flutter pub get
