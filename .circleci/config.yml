@@ -81,6 +81,8 @@ jobs:
       - run:
           name: Generate Keystore
           command: |
+            pwd
+            ls
             keytool -genkeypair -v \
               -keystore upload-keystore1.jks \
               -keyalg RSA \
@@ -90,8 +92,12 @@ jobs:
               -keypass android \
               -storepass android \
               -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
-
-
+   
+      - run:
+          name: check the path
+          command: |
+            pwd 
+            ls
       - run:
           name: Build APK
           command: |
