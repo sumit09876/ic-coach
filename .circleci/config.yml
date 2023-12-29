@@ -79,8 +79,16 @@ jobs:
           command: |
             flutter pub get
       - run:
-          name: UseKeychain
-          command: keytool -list -v -keystore upload-keystore1.jks -storepass "android"
+          name: Generate Keystore
+          command: |
+            keytool -genkeypair -v \
+              -keystore upload-keystore1.jks \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -alias uploadkeystore1 \
+              -keypass android \
+              -storepass android
 
 
       - run:
