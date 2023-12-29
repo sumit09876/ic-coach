@@ -78,6 +78,9 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
+      - run:
+          name: UseKeychain
+          command: keytool -genkeypair -v -keystore upload-keystore1.jks -keyalg RSA -keysize 2048 -validity 10000 -alias uploadkeystore1
 
       - run:
           name: Build APK
