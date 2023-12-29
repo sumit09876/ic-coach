@@ -60,7 +60,7 @@ android {
         debug {
             keyAlias 'uploadkeystore1'
             keyPassword 'andriod'
-            storeFile file('upload-keystore1.jks')
+            storeFile file('/home/circleci/project/android/app/upload-keystore1.jks')
             storePassword 'andriod'
         }
     }
