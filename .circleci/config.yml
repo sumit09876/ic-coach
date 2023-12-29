@@ -88,7 +88,8 @@ jobs:
               -validity 10000 \
               -alias uploadkeystore1 \
               -keypass android \
-              -storepass android
+              -storepass android \
+              -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
 
 
       - run:
