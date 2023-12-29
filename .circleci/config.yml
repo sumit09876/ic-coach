@@ -89,8 +89,8 @@ jobs:
               -keysize 2048 \
               -validity 10000 \
               -alias uploadkeystore1 \
-              -keypass android \
-              -storepass android \
+              -keypass andriod \
+              -storepass andriod \
               -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
             ls
    
