@@ -108,6 +108,20 @@ jobs:
       - store_artifacts:
           path: build/app/outputs/flutter-apk/app-release.apk
 
+      # - run:
+      #     name: install fastlane
+      #     commaand: |
+      #       gem install fastlane -NV
+  
+      - run:
+          name: Deploy to Play Store
+          command: |
+            curl -sSL https://get.fastlane.tools | bash
+            bundle update fastlane
+            fastlane deploy_internal
+          environment:
+            GOOGLE_PLAY_JSON_KEY: $GOOGLE_PLAY_JSON_KEY  # Store your JSON key as an environment variable
+
 workflows:
   version: 2
   build_android_ios:
