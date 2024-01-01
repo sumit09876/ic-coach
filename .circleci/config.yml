@@ -90,8 +90,8 @@ jobs:
           command: |
             flutter pub get
 
-      - name: Bump Version
-        command: dart version_script.dart
+      # - name: Bump Version
+      #   command: dart version_script.dart
       # - run:
       #     name: Generate Keystore
       #     command: |
