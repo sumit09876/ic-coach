@@ -89,42 +89,45 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
-      - run:
-          name: Generate Keystore
-          command: |
-            pwd
-            ls
-            keytool -genkeypair -v \
-              -keystore upload-keystore1.jks \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -alias uploadkeystore1 \
-              -keypass andriod \
-              -storepass andriod \
-              -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
-            ls
-   
-      - run:
-          name: check the path
-          command: |
-            cd ./
-            pwd
-            ls
-      - run:
-          name: Build APK
-          command: |
-            flutter build apk
 
-      - store_artifacts:
-          path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Bump Version
+        run: dart version_script.dart
+      # - run:
+      #     name: Generate Keystore
+      #     command: |
+      #       pwd
+      #       ls
+      #       keytool -genkeypair -v \
+      #         -keystore upload-keystore1.jks \
+      #         -keyalg RSA \
+      #         -keysize 2048 \
+      #         -validity 10000 \
+      #         -alias uploadkeystore1 \
+      #         -keypass andriod \
+      #         -storepass andriod \
+      #         -dname "CN=denny, OU=unit, O=camp, L=kas, S=lah, C=india"
+      #       ls
+   
+      # - run:
+      #     name: check the path
+      #     command: |
+      #       cd ./
+      #       pwd
+      #       ls
+      # - run:
+      #     name: Build APK
+      #     command: |
+      #       flutter build apk
+
+      # - store_artifacts:
+      #     path: build/app/outputs/flutter-apk/app-release.apk
       
-      - run:
-          name: Deploy to Play Store
-          command: |
-            cd android && fastlane deploy_internal
-          environment:
-            GOOGLE_PLAY_JSON_KEY: $GOOGLE_PLAY_JSON_KEY  # Store your JSON key as an environment variable
+      # - run:
+      #     name: Deploy to Play Store
+      #     command: |
+      #       cd android && fastlane deploy_internal
+      #     environment:
+      #       GOOGLE_PLAY_JSON_KEY: $GOOGLE_PLAY_JSON_KEY  # Store your JSON key as an environment variable
 
 workflows:
   version: 2
