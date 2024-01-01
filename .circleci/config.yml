@@ -88,11 +88,21 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
+      - run:
+          name: Bump Version
+          command: ./bump_version.sh
 
       # Other necessary steps for building Android
 
-      - when: always
-        steps:
-          - run:
-              name: Bump Version
-              command: dart version_script.dart
+      # - when: always
+      #   steps:
+      #     - run:
+      #         name: Bump Version
+      #         command: dart version_script.dart
+
+workflows:
+  version: 2
+  build_android_ios:
+    jobs:
+      - build_android
+    
