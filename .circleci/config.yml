@@ -89,6 +89,9 @@ jobs:
           command: |
             flutter pub get
       - run:
+          name: chmod
+          command: chmod +x bump_version.sh
+      - run:
           name: Bump Version
           command: ./bump_version.sh
 
