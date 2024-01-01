@@ -3,7 +3,7 @@ version: 2.1
 orbs:
  android: circleci/android@1.0.3
  flutter: circleci/flutter@2.0.0
-
+ dart: circleci/dart@1.0.2
 commands:
  custom_install_sdk:
     description: |
