@@ -84,14 +84,14 @@ jobs:
           command: |
             gem install bundler -v '< 3' && bundle install
       
+      - name: Bump Version
+        command: dart version_script.dart
   
       - run:
           name: Flutter pub get
           command: |
             flutter pub get
 
-      # - name: Bump Version
-      #   command: dart version_script.dart
       # - run:
       #     name: Generate Keystore
       #     command: |
