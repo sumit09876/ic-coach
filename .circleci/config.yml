@@ -59,25 +59,12 @@ commands:
           paths:
             - <<parameters.install-location>>
 
-
 jobs:
- build_android:
-    executor:
-      name: android/android-machine
-      resource-class: medium
-    
+  build_android:
+    docker:
+      - image: google/dart:latest
     steps:
       - checkout
-      - run:
-          name: Install Dart SDK
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y apt-transport-https
-            sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor --output /usr/share/keyrings/dart-archive-keyring.gpg'
-            echo "deb [signed-by=/usr/share/keyrings/dart-archive-keyring.gpg arch=amd64] https://dart-archive.debian.net/packages stable main" | sudo tee /etc/apt/sources.list.d/dart.list > /dev/null
-            sudo apt-get update
-            sudo apt-get install -y dart
-            export PATH="$PATH:/usr/lib/dart/bin"
       - run:
           name: Verify Dart installation
           command: dart --version
@@ -109,13 +96,13 @@ jobs:
           name: Bump Version
           command: ./bump_version.sh
 
-      # Other necessary steps for building Android
+      Other necessary steps for building Android
 
-      # - when: always
-      #   steps:
-      #     - run:
-      #         name: Bump Version
-      #         command: dart version_script.dart
+      - when: always
+        steps:
+          - run:
+              name: Bump Version
+              command: dart version_script.dart
 
 workflows:
   version: 2
