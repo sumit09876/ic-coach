@@ -67,7 +67,11 @@ jobs:
     
     steps:
       - checkout
+      - dart/install
 
+      - run:
+          name: Run Dart
+          command: dart --version
       - custom_install_sdk: 
           version: 3.16.0
 
