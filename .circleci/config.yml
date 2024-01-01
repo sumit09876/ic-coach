@@ -3,6 +3,8 @@ version: 2.1
 orbs:
  android: circleci/android@1.0.3
  flutter: circleci/flutter@2.0.0
+ dart: circleci/dart@1.0.0
+
 
 commands:
  custom_install_sdk:
@@ -67,16 +69,8 @@ jobs:
     
     steps:
       - checkout
-      - run:
-          name: Install Dart
-          command: |
-            sudo yum update
-            sudo yum install -y apt-transport-https
-            sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor --output /usr/share/keyrings/dart-archive-keyring.gpg'
-            echo "deb [signed-by=/usr/share/keyrings/dart-archive-keyring.gpg arch=amd64] https://dart-archive.debian.net/packages stable main" | sudo tee /etc/apt/sources.list.d/dart.list > /dev/null
-            sudo yum update
-            sudo yum install -y dart
-            export PATH="$PATH:/usr/lib/dart/bin"
+      - dart/install
+      - run: dart --version
 
       - custom_install_sdk: 
           version: 3.16.0
