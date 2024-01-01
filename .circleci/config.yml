@@ -83,15 +83,19 @@ jobs:
           name: Install bundler
           command: |
             gem install bundler -v '< 3' && bundle install
-      
-      - name: Bump Version
-        command: dart version_script.dart
-  
+        
       - run:
           name: Flutter pub get
           command: |
             flutter pub get
 
+      # Other necessary steps for building Android
+
+      - when: always
+        steps:
+          - run:
+              name: Bump Version
+              command: dart version_script.dart
       # - run:
       #     name: Generate Keystore
       #     command: |
