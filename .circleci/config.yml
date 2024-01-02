@@ -88,6 +88,7 @@ jobs:
           name: Flutter pub get
           command: |
             flutter pub get
+            dart pub get
 
       # Other necessary steps for building Android
 
