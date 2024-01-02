@@ -91,11 +91,9 @@ jobs:
 
       # Other necessary steps for building Android
 
-      - when: always
-        steps:
-          - run:
-              name: Bump Version
-              command: dart version_script.dart
+      - run:
+          name: Bump Version
+          command: dart version_script.dart
       # - run:
       #     name: Generate Keystore
       #     command: |
