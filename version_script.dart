@@ -5,7 +5,9 @@ void main() {
   // Read the current version from pubspec.yaml
   final pubspecFile = File('pubspec.yaml');
   final pubspecContent = pubspecFile.readAsStringSync();
-  final versionMatch = RegExp(r'version: (\d+\.\d+\.\d+)').firstMatch(pubspecContent);
+  
+  // Corrected the regular expression to allow for pre-release and build versions
+  final versionMatch = RegExp(r'version: (\d+\.\d+\.\d+.*)').firstMatch(pubspecContent);
 
   if (versionMatch != null) {
     final currentVersion = Version.parse(versionMatch.group(1)!);
